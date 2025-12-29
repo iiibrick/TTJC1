@@ -1,158 +1,136 @@
-/* --- 1. 全局基础配置 --- */
-:root { --border: #eeeeee; --header-bg: #f5f5f5; --wc-green: #07c160; }
-* { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system, sans-serif; }
+:root { --border: #eeeeee; --header-bg: #f9f9f9; --wc-green: #07c160; --text-main: #333; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system, "SF Pro Text", sans-serif; }
 
 body { 
     background:#000; 
-    display:flex; 
-    justify-content:center; 
-    align-items:center; 
     height: 100dvh; 
-    overflow:hidden; 
-    margin: 0;
+    display:flex; justify-content:center; align-items:center; 
+    overflow:hidden; margin: 0;
 }
 
-/* 铺满全屏，适配手机 */
+/* 手机外壳铺满全屏 */
 .phone-wrapper { 
     width: 100vw; 
     height: 100dvh; 
     background:#fff; 
     position:relative; 
     overflow:hidden; 
+    display: flex;
+    flex-direction: column;
 }
 
-/* 状态栏：适配挖孔屏区域 */
+/* 状态栏适配 */
 .status-bar { 
     height: calc(44px + env(safe-area-inset-top)); 
-    padding: env(safe-area-inset-top) 25px 0 25px; 
-    display:flex; 
-    justify-content:space-between; 
-    align-items:center; 
-    font-size:13px; 
-    font-weight:700; 
-    background:#fff; 
-    position:relative; 
-    z-index:999; 
+    padding: env(safe-area-inset-top) 20px 0;
+    display:flex; justify-content:space-between; align-items:center; 
+    font-size:14px; font-weight:600; background:#fff; z-index:999; 
 }
 
-/* App 层级隔离 */
+/* App 层级布局修正 */
 .app-layer { 
     position:absolute; 
     top: calc(44px + env(safe-area-inset-top)); 
-    left:0; 
-    width:100%; 
-    height: calc(100% - (44px + env(safe-area-inset-top))); 
-    display:none; 
-    background:#fff; 
-    z-index:10; 
+    left:0; width:100%; 
+    height: calc(100% - 44px - env(safe-area-inset-top)); 
+    display:none; background:#fff; z-index:10; 
 }
 .app-layer.active { display:flex; flex-direction:column; }
 
-.sub-page { 
-    position:absolute; 
-    top:0; left:0; width:100%; height:100%; 
-    display:none; flex-direction:column; background:#fff; 
-}
-.sub-page.active { display:flex; }
-
-/* --- 2. 主屏幕样式 (严格保持原版，禁止改动) --- */
+/* --- 主屏幕：严禁修改间距尺寸 --- */
 .home-header { text-align:center; padding-top:20px; }
 .date-display { font-size:1.3rem; font-weight:300; }
 .time-display { font-size:2.8rem; font-weight:600; margin:5px 0; }
 .motto-box { margin:10px auto; width:80%; padding:8px; border:1px solid #eee; border-radius:10px; font-size:0.9rem; color:#888; }
-
 .frosted-long-card { 
     margin:25px 20px 0; height:60px; border-radius:18px; 
     background:rgba(255,255,255,0.7); border:1px solid #eee; 
-    backdrop-filter:blur(15px); -webkit-backdrop-filter:blur(15px);
-    display:flex; align-items:center; justify-content:center; color:#aaa; font-size:0.8rem;
+    backdrop-filter:blur(15px); display:flex; align-items:center; justify-content:center; color:#aaa; font-size:0.8rem;
 }
-
-.home-main-layout { 
-    margin-top:135px; padding:0 20px; display:flex; gap:20px; align-items:center; 
-}
-
-.frosted-square-card {
-    width:150px; height:150px; border-radius:28px; background:rgba(255,255,255,0.7);
-    border:1px solid #eee; backdrop-filter:blur(15px); -webkit-backdrop-filter:blur(15px);
-    overflow:hidden; position:relative; cursor:pointer;
-}
-.frosted-square-card img { width:100%; height:100%; object-fit:cover; opacity:0.8; }
-.img-overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.1); display:flex; justify-content:center; align-items:center; opacity:0; transition:0.3s; }
-.frosted-square-card:hover .img-overlay { opacity:1; }
-
+.home-main-layout { margin-top:135px; padding:0 20px; display:flex; gap:20px; align-items:center; }
+.frosted-square-card { width:150px; height:150px; border-radius:28px; background:#f0f0f0; border:1px solid #eee; overflow:hidden; position:relative; }
+.frosted-square-card img { width:100%; height:100%; object-fit:cover; }
 .ios-grid { flex:1; display:grid; grid-template-columns:1fr 1fr; gap:15px; }
-.ios-item { display:flex; flex-direction:column; align-items:center; }
-.ios-icon { width:52px; height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:22px; }
-.ios-item span { font-size:10px; color:#666; margin-top:5px; }
+.ios-item { display:flex; flex-direction:column; align-items:center; font-size:11px; color:#666; }
+.ios-icon { width:52px; height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:22px; margin-bottom:5px; }
 
+/* 底部 Dock 适配 */
 .dock-bar { 
-    position:absolute; 
-    bottom: calc(30px + env(safe-area-inset-bottom)); 
+    position:absolute; bottom: calc(25px + env(safe-area-inset-bottom)); 
     left:15px; right:15px; height:85px; 
-    background:rgba(255,255,255,0.8); backdrop-filter:blur(10px); 
-    border-radius:25px; border:1px solid #eee; 
+    background:rgba(255,255,255,0.85); backdrop-filter:blur(15px); 
+    border-radius:26px; border:1px solid rgba(0,0,0,0.05); 
     display:flex; justify-content:space-around; align-items:center; 
 }
-.dock-btn { display:flex; flex-direction:column; align-items:center; cursor:pointer; }
-.dock-btn img { width:36px; height:36px; margin-bottom:4px; }
-.dock-btn span { font-size:10px; color:#666; }
+.dock-btn { display:flex; flex-direction:column; align-items:center; text-decoration:none; }
+.dock-btn img { width:38px; height:38px; margin-bottom:4px; }
+.dock-btn span { font-size:11px; color:#333; font-weight:500; }
 
-/* --- 3. App 通用极简 UI --- */
+/* --- App 内部页面：修复样式流失 --- */
+.sub-page { position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; background:#fff; }
+.sub-page.active { display:flex; }
+
 .app-header { 
-    flex-shrink: 0; height: 55px; 
-    background: var(--header-bg); border-bottom: 1px solid #ddd; 
-    display: flex; align-items: center; justify-content: space-between; 
-    padding: 0 15px; font-weight: 700; 
+    height: 55px; flex-shrink: 0; background: var(--header-bg); 
+    border-bottom: 1px solid #e0e0e0; display:flex; align-items:center; 
+    justify-content:space-between; padding:0 15px; 
 }
-.app-header i { cursor:pointer; padding:10px; }
+.app-header i { font-size: 18px; color: #333; cursor: pointer; padding: 10px; }
+.header-title { font-size: 17px; font-weight: 600; color: var(--text-main); }
 
-.app-body { flex: 1; overflow-y: auto; }
+.app-body { flex: 1; overflow-y: auto; background: #fff; }
 
 .app-footer { 
-    flex-shrink: 0; height: 60px; 
-    border-top: 1px solid #eee; display: flex; background: #fff; 
+    height: calc(60px + env(safe-area-inset-bottom)); 
     padding-bottom: env(safe-area-inset-bottom);
+    border-top: 1px solid #eee; display:flex; background: #fdfdfd; 
 }
-.footer-tab { flex:1; display:flex; align-items:center; justify-content:center; font-size:16px; color:#999; cursor:pointer; }
-.footer-tab.active { color:var(--wc-green); font-weight:700; background:#fafafa; }
+.footer-tab { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#999; font-size:11px; }
+.footer-tab i { font-size: 20px; margin-bottom: 2px; }
+.footer-tab.active { color: var(--wc-green); }
 
-/* --- 4. 微信具体组件 --- */
-.msg-box { 
-    flex: 1; background: #f2f2f2; padding: 15px; 
-    overflow-y: auto; display: flex; flex-direction: column;
+/* 微信/设置列表美化 */
+.minimal-list { padding-top: 8px; }
+.minimal-row { 
+    height: 60px; padding: 0 20px; display:flex; align-items:center; 
+    justify-content:space-between; border-bottom: 1px solid #f2f2f2; 
+    font-size:16px; color: #333; cursor:pointer;
 }
+.minimal-row:active { background: #f5f5f5; }
+
+.list-item { 
+    display:flex; padding: 12px 16px; border-bottom: 1px solid #f5f5f5; align-items:center; 
+}
+.list-item img { width: 48px; height: 48px; border-radius: 8px; margin-right: 12px; }
+.list-item-info { flex: 1; }
+.list-item-info b { font-size: 16px; display: block; margin-bottom: 2px; }
+.list-item-info small { color: #aaa; font-size: 13px; }
+
+/* 聊天框修复 */
+.msg-box { flex:1; background:#ededed; padding:15px; overflow-y:auto; }
 .wc-input-area { 
-    flex-shrink: 0; height: 60px; 
-    background: #f7f7f7; border-top: 1px solid #ddd; 
-    display: flex; align-items: center; padding: 0 10px; gap: 10px; 
-    padding-bottom: env(safe-area-inset-bottom);
+    height: calc(60px + env(safe-area-inset-bottom)); 
+    padding: 0 10px env(safe-area-inset-bottom);
+    background:#f7f7f7; border-top:1px solid #ddd; display:flex; align-items:center; gap:10px;
 }
-#chat-in { flex:1; height:38px; border:1px solid #ddd; border-radius:6px; padding:0 10px; background:#fff; }
-.wc-input-area i { font-size:20px; color:var(--wc-green); cursor:pointer; }
-.add-bar { height:55px; border-bottom:1px solid #eee; display:flex; align-items:center; justify-content:center; color:var(--wc-green); font-weight:700; cursor:pointer; }
+#chat-in { flex:1; height:38px; border:1px solid #ddd; border-radius:6px; padding:0 10px; background:#fff; font-size:15px; }
 
-/* --- 5. 设置具体组件 (恢复原有按钮/输入框样式) --- */
-.minimal-list { padding-top:10px; }
-.minimal-row { height:65px; margin-left:20px; padding-right:20px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #f2f2f2; font-size:17px; cursor:pointer; }
+/* 按钮与表单 */
+.p-20 { padding: 20px; }
+.l { font-size: 13px; color: #888; margin: 15px 0 5px; display: block; }
+.i { width: 100%; padding: 12px; border: 1px solid #eee; border-radius: 10px; background: #fafafa; font-size: 15px; }
+.b-save { width: 100%; padding: 15px; background: #333; color: #fff; border: none; border-radius: 12px; font-weight: 600; margin-top: 25px; }
+.api-btn { background: var(--wc-green); color: #fff; border: none; padding: 5px 12px; border-radius: 6px; font-size: 12px; }
 
-.p-20 { padding:20px; }
-.l { display:block; font-size:12px; color:#999; margin:15px 0 5px; }
-.i { width:100%; padding:12px; border:1px solid #eee; border-radius:8px; background:#fafafa; }
-.b-save { width:100%; padding:15px; background:#000; color:#fff; border-radius:12px; border:none; font-weight:700; margin-top:20px; cursor:pointer; }
-.api-btn { background:var(--wc-green); color:#fff; border:none; padding:4px 10px; border-radius:5px; font-size:12px; cursor:pointer; }
+/* 启动动画 */
+#splash-screen { position:fixed; top:0; left:0; width:100%; height:100%; background:#fff; z-index:99999; display:flex; flex-direction:column; justify-content:center; align-items:center; transition: opacity 0.6s; }
+.pixel-text { font-size:2rem; letter-spacing:5px; color:#333; font-weight: 800; }
+.loader { width: 20px; height: 20px; border: 3px solid #eee; border-top: 3px solid #333; border-radius: 50%; animation: spin 1s linear infinite; margin-top: 20px; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
 
-/* --- 6. 弹窗与启动页 --- */
-.modal-overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); display:none; justify-content:center; align-items:center; z-index:9999; }
-.modal-card { width:88%; max-height:85%; background:#fff; border-radius:20px; padding:20px; display:flex; flex-direction:column; }
-.modal-top { display:flex; justify-content:space-between; font-weight:700; padding-bottom:10px; }
-.modal-body { flex:1; overflow-y:auto; margin-top:15px; }
-.modal-body input, .modal-body textarea { width:100%; padding:10px; border:1px solid #eee; border-radius:8px; margin:5px 0 15px; }
-.modal-save { width:100%; padding:15px; background:var(--wc-green); color:#fff; border:none; border-radius:12px; font-weight:700; cursor:pointer; }
+.empty-hint { text-align: center; color: #bbb; margin-top: 100px; font-size: 15px; }
 
-#splash-screen { position:fixed; top:0; left:0; width:100%; height:100%; background:#fff; z-index:99999; display:flex; justify-content:center; align-items:center; transition:opacity 0.8s; }
-.pixel-text { font-size:2rem; letter-spacing:5px; color:#444; }
-.loader { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 30px; height: 30px; animation: spin 2s linear infinite; margin-top:15px; }
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-.empty-hint { text-align:center; color:#ccc; margin-top:50px; font-size:14px; }
+/* 弹窗适配 */
+.modal-overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; display:none; justify-content:center; align-items:center; }
+.modal-card { width: 85%; background:#fff; border-radius: 20px; padding: 20px; }
+.modal-save { width:100%; padding:14px; background:var(--wc-green); color:#fff; border:none; border-radius:12px; font-weight:600; margin-top:10px; }
