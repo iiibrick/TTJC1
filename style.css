@@ -1,0 +1,85 @@
+:root { --border: #eeeeee; --header-bg: #f5f5f5; --wc-green: #07c160; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system, sans-serif; }
+body { background:#000; display:flex; justify-content:center; align-items:center; height:100vh; overflow:hidden; }
+
+.phone-wrapper { width:375px; height:812px; background:#fff; border:12px solid #222; border-radius:45px; position:relative; overflow:hidden; }
+.status-bar { height:44px; display:flex; justify-content:space-between; align-items:center; padding:0 25px; font-size:13px; font-weight:700; background:#fff; position:relative; z-index:999; }
+
+/* 容器彻底隔离 */
+.app-layer { position:absolute; top:44px; left:0; width:100%; height:calc(100% - 44px); display:none; background:#fff; z-index:10; }
+.app-layer.active { display:flex; flex-direction:column; }
+.sub-page { position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; background:#fff; }
+.sub-page.active { display:flex; }
+
+/* 主屏幕样式修正 */
+.home-header { text-align:center; padding-top:20px; }
+.date-display { font-size:1.3rem; font-weight:300; }
+.time-display { font-size:2.8rem; font-weight:600; margin:5px 0; }
+.motto-box { margin:10px auto; width:80%; padding:8px; border:1px solid #eee; border-radius:10px; font-size:0.9rem; color:#888; }
+
+.frosted-long-card { 
+    margin:25px 20px 0; height:60px; border-radius:18px; 
+    background:rgba(255,255,255,0.7); border:1px solid #eee; 
+    backdrop-filter:blur(15px); -webkit-backdrop-filter:blur(15px);
+    display:flex; align-items:center; justify-content:center; color:#aaa; font-size:0.8rem;
+}
+
+/* 距离长条卡片约135px (3个输入框高度) */
+.home-main-layout { 
+    margin-top:135px; padding:0 20px; display:flex; gap:20px; align-items:center; 
+}
+
+.frosted-square-card {
+    width:150px; height:150px; border-radius:28px; background:rgba(255,255,255,0.7);
+    border:1px solid #eee; backdrop-filter:blur(15px); -webkit-backdrop-filter:blur(15px);
+    overflow:hidden; position:relative; cursor:pointer;
+}
+.frosted-square-card img { width:100%; height:100%; object-fit:cover; opacity:0.8; }
+.img-overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.1); display:flex; justify-content:center; align-items:center; opacity:0; transition:0.3s; }
+.frosted-square-card:hover .img-overlay { opacity:1; }
+
+.ios-grid { flex:1; display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+.ios-item { display:flex; flex-direction:column; align-items:center; }
+.ios-icon { width:52px; height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:22px; }
+.ios-item span { font-size:10px; color:#666; margin-top:5px; }
+
+.dock-bar { position:absolute; bottom:30px; left:15px; right:15px; height:85px; background:rgba(255,255,255,0.8); backdrop-filter:blur(10px); border-radius:25px; border:1px solid #eee; display:flex; justify-content:space-around; align-items:center; }
+.dock-btn { display:flex; flex-direction:column; align-items:center; cursor:pointer; }
+.dock-btn img { width:36px; height:36px; margin-bottom:4px; }
+.dock-btn span { font-size:10px; color:#666; }
+
+/* 极简 App 界面 (还原截图) */
+.app-header { height:55px; background:var(--header-bg); border-bottom:1px solid #ddd; display:flex; align-items:center; justify-content:space-between; padding:0 15px; font-weight:700; }
+.app-header i { cursor:pointer; padding:10px; }
+.app-footer { height:60px; border-top:1px solid #eee; display:flex; background:#fff; }
+.footer-tab { flex:1; display:flex; align-items:center; justify-content:center; font-size:16px; color:#999; cursor:pointer; border-right:1px solid #f9f9f9; }
+.footer-tab.active { color:var(--wc-green); font-weight:700; background:#fafafa; }
+
+.minimal-list { padding-top:10px; }
+.minimal-row { height:65px; margin-left:20px; padding-right:20px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #f2f2f2; font-size:17px; cursor:pointer; }
+
+/* 微信聊天 */
+.app-body { flex:1; overflow-y:auto; }
+.msg-box { flex:1; background:#f2f2f2; padding:15px; overflow-y:auto; }
+.wc-input-area { height:60px; background:#fff; border-top:1px solid #eee; display:flex; align-items:center; padding:0 10px; gap:10px; }
+#chat-in { flex:1; height:38px; border:1px solid #ddd; border-radius:6px; padding:0 10px; }
+.wc-input-area i { font-size:20px; color:var(--wc-green); cursor:pointer; }
+.add-bar { height:55px; border-bottom:1px solid #eee; display:flex; align-items:center; justify-content:center; color:var(--wc-green); font-weight:700; cursor:pointer; }
+
+/* 设置内容 */
+.p-20 { padding:20px; }
+.l { display:block; font-size:12px; color:#999; margin:15px 0 5px; }
+.i { width:100%; padding:12px; border:1px solid #eee; border-radius:8px; background:#fafafa; }
+.b-save { width:100%; padding:15px; background:#000; color:#fff; border-radius:12px; border:none; font-weight:700; margin-top:20px; }
+.api-btn { background:var(--wc-green); color:#fff; border:none; padding:4px 10px; border-radius:5px; font-size:12px; }
+
+/* 弹窗 */
+.modal-overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); display:none; justify-content:center; align-items:center; z-index:9999; }
+.modal-card { width:88%; height:82%; background:#fff; border-radius:20px; padding:20px; display:flex; flex-direction:column; }
+.modal-top { display:flex; justify-content:space-between; font-weight:700; }
+.modal-body { flex:1; overflow-y:auto; margin-top:15px; }
+.modal-body input, .modal-body textarea { width:100%; padding:10px; border:1px solid #eee; border-radius:8px; margin:5px 0 15px; }
+.modal-save { width:100%; padding:15px; background:var(--wc-green); color:#fff; border:none; border-radius:12px; font-weight:700; }
+
+#splash-screen { position:fixed; top:0; left:0; width:100%; height:100%; background:#fff; z-index:99999; display:flex; justify-content:center; align-items:center; transition:opacity 0.8s; }
+.pixel-text { font-size:2rem; letter-spacing:5px; color:#444; }

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>iiibrick OS v3.0</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="splash-screen">
+        <div class="splash-content"><h1 class="pixel-text">iiibrick</h1><div class="loader"></div></div>
+    </div>
+
+    <div class="phone-wrapper">
+        <!-- 全局状态栏 -->
+        <div class="status-bar">
+            <div class="status-left"><span id="st-time">13:41</span></div>
+            <div class="status-right">
+                <i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i><span>56%</span>
+            </div>
+        </div>
+
+        <!-- 1. 主屏幕容器 -->
+        <div id="home-screen" class="app-layer active">
+            <div class="home-scroll-area">
+                <!-- 头部信息 -->
+                <div class="home-header">
+                    <div class="date-display">2025年12月29日</div>
+                    <div class="time-display">13:41</div>
+                    <div class="motto-box">✨ Keep your soul free ✨</div>
+                </div>
+
+                <!-- 长条毛玻璃卡片 -->
+                <div class="frosted-long-card">Recent Notes / Memories...</div>
+
+                <!-- 下方功能区：位置上移 -->
+                <div class="home-main-layout">
+                    <!-- 左侧方形卡片 -->
+                    <div class="frosted-square-card" onclick="changeHomeImage()">
+                        <img id="home-square-img" src="https://api.iconify.design/pixelarticons:image-plus.svg">
+                        <div class="img-overlay"><i class="fas fa-upload"></i></div>
+                    </div>
+                    <!-- 右侧iOS图标组 -->
+                    <div class="ios-grid">
+                        <div class="ios-item"><div class="ios-icon" style="background:#FF9500;"><i class="fas fa-sun"></i></div><span>天气</span></div>
+                        <div class="ios-item"><div class="ios-icon" style="background:#5856D6;"><i class="fas fa-music"></i></div><span>音乐</span></div>
+                        <div class="ios-item"><div class="ios-icon" style="background:#FF2D55;"><i class="fas fa-heart"></i></div><span>健康</span></div>
+                        <div class="ios-item"><div class="ios-icon" style="background:#007AFF;"><i class="fas fa-folder"></i></div><span>文件</span></div>
+                    </div>
+                </div>
+            </div>
+            <!-- 主屏幕 Dock -->
+            <div class="dock-bar">
+                <div class="dock-btn" onclick="openApp('wechat')"><img id="ic-wc" src="https://api.iconify.design/pixelarticons:message-text.svg"><span>微信</span></div>
+                <div class="dock-btn" onclick="openApp('settings')"><img id="ic-set" src="https://api.iconify.design/pixelarticons:sliders.svg"><span>设置</span></div>
+                <div class="dock-btn" onclick="toggleFullscreen()"><i class="fas fa-expand"></i><span>全屏</span></div>
+            </div>
+        </div>
+
+        <!-- 2. 微信 App 容器 -->
+        <div id="wechat-app" class="app-layer">
+            <div id="wc-list-page" class="sub-page active">
+                <div class="app-header"><i class="fas fa-chevron-left" onclick="goHome()"></i><span>微信</span><i></i></div>
+                <div class="app-body"><div id="chat-list-box"><p class="empty-hint">暂时没有聊天内容</p></div></div>
+                <div class="app-footer">
+                    <div class="footer-tab active" onclick="switchWCTab('list')">聊天</div>
+                    <div class="footer-tab" onclick="switchWCTab('contacts')">联系人</div>
+                </div>
+            </div>
+            <div id="wc-chat-page" class="sub-page">
+                <div class="app-header"><i class="fas fa-chevron-left" onclick="switchWCTab('list')"></i><span id="chat-title">昵称</span><i></i></div>
+                <div id="msg-flow" class="msg-box"></div>
+                <div class="wc-input-area">
+                    <i class="fas fa-microphone"></i><input type="text" id="chat-in" placeholder="对话框"><i class="fas fa-paper-plane" id="btn-send"></i><i class="fas fa-robot" id="btn-gen"></i>
+                </div>
+            </div>
+            <div id="wc-contacts-page" class="sub-page">
+                <div class="app-header"><i class="fas fa-chevron-left" onclick="switchWCTab('list')"></i><span>通讯录</span><i></i></div>
+                <div class="app-body">
+                    <div class="add-bar" onclick="showAddModal()">添加联系人</div>
+                    <div id="contacts-box"></div>
+                </div>
+                <div class="app-footer">
+                    <div class="footer-tab" onclick="switchWCTab('list')">聊天</div>
+                    <div class="footer-tab active" onclick="switchWCTab('contacts')">联系人</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 设置 App 容器 -->
+        <div id="settings-app" class="app-layer">
+            <div id="set-main-page" class="sub-page active">
+                <div class="app-header"><i class="fas fa-chevron-left" onclick="goHome()"></i><span>设置</span><i></i></div>
+                <div class="minimal-list">
+                    <div class="minimal-row" onclick="openSetSub('api')"><span>API 设置</span><i class="fas fa-chevron-right"></i></div>
+                    <div class="minimal-row" onclick="openSetSub('beautify')"><span>美化板块</span><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+            <div id="set-api-page" class="sub-page">
+                <div class="app-header"><i class="fas fa-chevron-left" onclick="openSetSub('main')"></i><span>API 设置</span><button onclick="fetchModels()" class="api-btn">拉取</button></div>
+                <div class="p-20">
+                    <label class="l">Base URL</label><input type="text" id="api-base" value="https://api520.pro/v1" class="i">
+                    <label class="l">API Key</label><input type="password" id="api-key" class="i">
+                    <label class="l">选择模型</label><select id="api-model" class="i"><option>请先拉取</option></select>
+                    <button class="b-save" onclick="saveApi()">保存配置</button>
+                </div>
+            </div>
+            <div id="set-beautify-page" class="sub-page">
+                <div class="app-header"><i class="fas fa-chevron-left" onclick="openSetSub('main')"></i><span>美化板块</span><i></i></div>
+                <div class="p-20">
+                    <label class="l">微信图标 URL</label><input type="text" id="custom-wc" class="i">
+                    <label class="l">设置图标 URL</label><input type="text" id="custom-set" class="i">
+                    <button class="b-save" onclick="applyIcons()">应用修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗：界面4 -->
+    <div id="add-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-top"><span>添加联系人</span><i class="fas fa-times" onclick="closeAddModal()"></i></div>
+            <div class="modal-body">
+                <label>头像 URL</label><input type="text" id="in-avatar">
+                <label>名字 (AI扮演名)</label><input type="text" id="in-name">
+                <label>昵称 (显示名)</label><input type="text" id="in-nickname">
+                <label>他是谁 (Prompt)</label><textarea id="in-role" rows="3"></textarea>
+                <label>你是谁 (User Prompt)</label><textarea id="in-user" rows="3"></textarea>
+                <button class="modal-save" onclick="saveNewContact()">保存</button>
+            </div>
+        </div>
+    </div>
+    <input type="file" id="img-upload" style="display:none" accept="image/*" onchange="processLocalImg(this)">
+    <script src="script.js"></script>
+</body>
+</html>
