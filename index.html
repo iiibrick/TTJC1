@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <!-- 1. 主屏幕 (内容严禁变动) -->
+        <!-- 1. 主屏幕 (严禁改动) -->
         <div id="home-screen" class="app-layer active">
             <div class="home-scroll-area">
                 <div class="home-header">
@@ -53,26 +53,21 @@
             </div>
         </div>
 
-        <!-- 2. 微信 App (已修复布局) -->
+        <!-- 2. 微信 App -->
         <div id="wechat-app" class="app-layer">
             <div id="wc-list-page" class="sub-page active">
-                <div class="app-header">
-                    <i class="fas fa-chevron-left" onclick="goHome()"></i>
-                    <span class="header-title">微信</span>
-                    <i class="fas fa-plus-circle" onclick="showAddModal()"></i>
-                </div>
+                <div class="app-header"><i class="fas fa-chevron-left" onclick="goHome()"></i><span>微信</span><i></i></div>
                 <div class="app-body"><div id="chat-list-box"></div></div>
                 <div class="app-footer">
-                    <div class="footer-tab active" onclick="switchWCTab('list')"><i class="fas fa-comment"></i><span>聊天</span></div>
-                    <div class="footer-tab" onclick="switchWCTab('contacts')"><i class="fas fa-address-book"></i><span>通讯录</span></div>
+                    <div class="footer-tab active" onclick="switchWCTab('list')">聊天</div>
+                    <div class="footer-tab" onclick="switchWCTab('contacts')">联系人</div>
                 </div>
             </div>
-            <!-- 其他微信子页面保持原样... -->
             <div id="wc-chat-page" class="sub-page">
                 <div class="app-header"><i class="fas fa-chevron-left" onclick="switchWCTab('list')"></i><span id="chat-title">昵称</span><i></i></div>
                 <div id="msg-flow" class="msg-box"></div>
                 <div class="wc-input-area">
-                    <i class="fas fa-microphone"></i><input type="text" id="chat-in" placeholder="对话框"><i class="fas fa-robot" id="btn-gen"></i>
+                    <i class="fas fa-microphone"></i><input type="text" id="chat-in" placeholder="对话框"><i class="fas fa-paper-plane" id="btn-send"></i><i class="fas fa-robot" id="btn-gen"></i>
                 </div>
             </div>
             <div id="wc-contacts-page" class="sub-page">
@@ -88,7 +83,7 @@
             </div>
         </div>
 
-        <!-- 3. 设置 App (已修复列表样式) -->
+        <!-- 3. 设置 App -->
         <div id="settings-app" class="app-layer">
             <div id="set-main-page" class="sub-page active">
                 <div class="app-header"><i class="fas fa-chevron-left" onclick="goHome()"></i><span>设置</span><i></i></div>
@@ -101,7 +96,7 @@
             </div>
             <div id="set-api-page" class="sub-page">
                 <div class="app-header"><i class="fas fa-chevron-left" onclick="openSetSub('main')"></i><span>API 设置</span><button onclick="fetchModels()" class="api-btn">拉取</button></div>
-                <div class="p-20">
+                <div class="app-body p-20">
                     <label class="l">Base URL</label><input type="text" id="api-base" value="https://api520.pro/v1" class="i">
                     <label class="l">API Key</label><input type="password" id="api-key" class="i">
                     <label class="l">选择模型</label><select id="api-model" class="i"><option>请先拉取</option></select>
@@ -110,7 +105,7 @@
             </div>
             <div id="set-beautify-page" class="sub-page">
                 <div class="app-header"><i class="fas fa-chevron-left" onclick="openSetSub('main')"></i><span>美化板块</span><i></i></div>
-                <div class="p-20">
+                <div class="app-body p-20">
                     <label class="l">微信图标 URL</label><input type="text" id="custom-wc" class="i">
                     <label class="l">设置图标 URL</label><input type="text" id="custom-set" class="i">
                     <button class="b-save" onclick="applyIcons()">应用修改</button>
@@ -119,27 +114,17 @@
         </div>
     </div>
 
-    <!-- 弹窗：修正结构 -->
+    <!-- 弹窗 -->
     <div id="add-modal" class="modal-overlay">
         <div class="modal-card">
-            <div class="modal-top"><span>添加联系人</span><i class="fas fa-times" onclick="closeAddModal()" style="cursor:pointer"></i></div>
+            <div class="modal-top"><span>添加联系人</span><i class="fas fa-times" onclick="closeAddModal()"></i></div>
             <div class="modal-body">
-                <label>头像 URL</label>
-                <input type="text" id="in-avatar" placeholder="https://...">
-                
-                <label>名字 (AI扮演名)</label>
-                <input type="text" id="in-name">
-                
-                <label>昵称 (显示名)</label>
-                <input type="text" id="in-nickname">
-                
-                <label>他是谁 (Prompt)</label>
-                <textarea id="in-role" rows="3" placeholder="角色的性格、背景..."></textarea>
-                
-                <label>你是谁 (User Prompt)</label>
-                <textarea id="in-user" rows="3" placeholder="角色如何称呼你..."></textarea>
-                
-                <button class="modal-save" onclick="saveNewContact()">保存联系人</button>
+                <label>头像 URL</label><input type="text" id="in-avatar">
+                <label>名字 (AI扮演名)</label><input type="text" id="in-name">
+                <label>昵称 (显示名)</label><input type="text" id="in-nickname">
+                <label>他是谁 (Prompt)</label><textarea id="in-role" rows="3"></textarea>
+                <label>你是谁 (User Prompt)</label><textarea id="in-user" rows="3"></textarea>
+                <button class="modal-save" onclick="saveNewContact()">保存</button>
             </div>
         </div>
     </div>
