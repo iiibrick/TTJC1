@@ -2,17 +2,20 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <!-- 增加 viewport-fit=cover 确保铺满挖孔屏 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>iiibrick OS v3.0</title>
 
-    <!-- 刚才复制的代码粘在这里 -->
+    <!-- PWA全屏配置 -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ffffff">
+
     <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
-    <meta name="apple-mobile-web-app-title" content="iiibrick OS">
-    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -23,7 +26,7 @@
     </div>
 
     <div class="phone-wrapper">
-        <!-- 全局状态栏 -->
+        <!-- 全局状态栏：适配了安全区 -->
         <div class="status-bar">
             <div class="status-left"><span id="st-time">13:41</span></div>
             <div class="status-right">
@@ -34,24 +37,19 @@
         <!-- 1. 主屏幕容器 -->
         <div id="home-screen" class="app-layer active">
             <div class="home-scroll-area">
-                <!-- 头部信息 -->
                 <div class="home-header">
                     <div class="date-display">2025年12月29日</div>
                     <div class="time-display">13:41</div>
                     <div class="motto-box">✨ Keep your soul free ✨</div>
                 </div>
 
-                <!-- 长条毛玻璃卡片 -->
                 <div class="frosted-long-card">Recent Notes / Memories...</div>
 
-                <!-- 下方功能区：位置上移 -->
                 <div class="home-main-layout">
-                    <!-- 左侧方形卡片 -->
                     <div class="frosted-square-card" onclick="changeHomeImage()">
                         <img id="home-square-img" src="https://api.iconify.design/pixelarticons:image-plus.svg">
                         <div class="img-overlay"><i class="fas fa-upload"></i></div>
                     </div>
-                    <!-- 右侧iOS图标组 -->
                     <div class="ios-grid">
                         <div class="ios-item"><div class="ios-icon" style="background:#FF9500;"><i class="fas fa-sun"></i></div><span>天气</span></div>
                         <div class="ios-item"><div class="ios-icon" style="background:#5856D6;"><i class="fas fa-music"></i></div><span>音乐</span></div>
@@ -60,7 +58,7 @@
                     </div>
                 </div>
             </div>
-            <!-- 主屏幕 Dock -->
+            
             <div class="dock-bar">
                 <div class="dock-btn" onclick="openApp('wechat')"><img id="ic-wc" src="https://api.iconify.design/pixelarticons:message-text.svg"><span>微信</span></div>
                 <div class="dock-btn" onclick="openApp('settings')"><img id="ic-set" src="https://api.iconify.design/pixelarticons:sliders.svg"><span>设置</span></div>
@@ -68,7 +66,7 @@
             </div>
         </div>
 
-        <!-- 2. 微信 App 容器 -->
+        <!-- 2. 微信 App -->
         <div id="wechat-app" class="app-layer">
             <div id="wc-list-page" class="sub-page active">
                 <div class="app-header"><i class="fas fa-chevron-left" onclick="goHome()"></i><span>微信</span><i></i></div>
@@ -98,7 +96,7 @@
             </div>
         </div>
 
-        <!-- 3. 设置 App 容器 -->
+        <!-- 3. 设置 App -->
         <div id="settings-app" class="app-layer">
             <div id="set-main-page" class="sub-page active">
                 <div class="app-header"><i class="fas fa-chevron-left" onclick="goHome()"></i><span>设置</span><i></i></div>
@@ -127,7 +125,7 @@
         </div>
     </div>
 
-    <!-- 弹窗：界面4 -->
+    <!-- 弹窗 -->
     <div id="add-modal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-top"><span>添加联系人</span><i class="fas fa-times" onclick="closeAddModal()"></i></div>

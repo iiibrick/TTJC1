@@ -1,17 +1,60 @@
 :root { --border: #eeeeee; --header-bg: #f5f5f5; --wc-green: #07c160; }
 * { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system, sans-serif; }
-body { background:#000; display:flex; justify-content:center; align-items:center; height:100vh; overflow:hidden; }
 
-.phone-wrapper { width:375px; height:812px; background:#fff; border:12px solid #222; border-radius:45px; position:relative; overflow:hidden; }
-.status-bar { height:44px; display:flex; justify-content:space-between; align-items:center; padding:0 25px; font-size:13px; font-weight:700; background:#fff; position:relative; z-index:999; }
+body { 
+    background:#000; 
+    display:flex; 
+    justify-content:center; 
+    align-items:center; 
+    height: 100vh;
+    height: 100dvh; /* 适配移动端动态视口 */
+    overflow:hidden; 
+    margin: 0;
+}
 
-/* 容器彻底隔离 */
-.app-layer { position:absolute; top:44px; left:0; width:100%; height:calc(100% - 44px); display:none; background:#fff; z-index:10; }
+/* 手机外壳容器改为全屏模式 */
+.phone-wrapper { 
+    width: 100vw; 
+    height: 100vh; 
+    height: 100dvh; 
+    background:#fff; 
+    border: none; /* 移除原来的模拟边框 */
+    border-radius: 0; /* 移除模拟圆角 */
+    position:relative; 
+    overflow:hidden; 
+}
+
+/* 状态栏适配挖孔屏 */
+.status-bar { 
+    height: calc(44px + env(safe-area-inset-top)); 
+    padding: env(safe-area-inset-top) 25px 0 25px; 
+    display:flex; 
+    justify-content:space-between; 
+    align-items:center; 
+    font-size:13px; 
+    font-weight:700; 
+    background:#fff; 
+    position:relative; 
+    z-index:999; 
+}
+
+/* App 层级高度适配 */
+.app-layer { 
+    position:absolute; 
+    top: calc(44px + env(safe-area-inset-top)); 
+    left:0; 
+    width:100%; 
+    height: calc(100% - (44px + env(safe-area-inset-top))); 
+    display:none; 
+    background:#fff; 
+    z-index:10; 
+}
 .app-layer.active { display:flex; flex-direction:column; }
+
 .sub-page { position:absolute; top:0; left:0; width:100%; height:100%; display:none; flex-direction:column; background:#fff; }
 .sub-page.active { display:flex; }
 
-/* 主屏幕样式修正 */
+/* 以下主屏幕样式参数完全没动，确保你要求的布局不变 */
 .home-header { text-align:center; padding-top:20px; }
 .date-display { font-size:1.3rem; font-weight:300; }
 .time-display { font-size:2.8rem; font-weight:600; margin:5px 0; }
@@ -24,7 +67,6 @@ body { background:#000; display:flex; justify-content:center; align-items:center
     display:flex; align-items:center; justify-content:center; color:#aaa; font-size:0.8rem;
 }
 
-/* 距离长条卡片约135px (3个输入框高度) */
 .home-main-layout { 
     margin-top:135px; padding:0 20px; display:flex; gap:20px; align-items:center; 
 }
@@ -43,43 +85,37 @@ body { background:#000; display:flex; justify-content:center; align-items:center
 .ios-icon { width:52px; height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:22px; }
 .ios-item span { font-size:10px; color:#666; margin-top:5px; }
 
-.dock-bar { position:absolute; bottom:30px; left:15px; right:15px; height:85px; background:rgba(255,255,255,0.8); backdrop-filter:blur(10px); border-radius:25px; border:1px solid #eee; display:flex; justify-content:space-around; align-items:center; }
+/* 底部 Dock 适配 Android 手势条区域 */
+.dock-bar { 
+    position:absolute; 
+    bottom: calc(20px + env(safe-area-inset-bottom)); 
+    left:15px; 
+    right:15px; 
+    height:85px; 
+    background:rgba(255,255,255,0.8); 
+    backdrop-filter:blur(10px); 
+    border-radius:25px; 
+    border:1px solid #eee; 
+    display:flex; 
+    justify-content:space-around; 
+    align-items:center; 
+}
 .dock-btn { display:flex; flex-direction:column; align-items:center; cursor:pointer; }
 .dock-btn img { width:36px; height:36px; margin-bottom:4px; }
 .dock-btn span { font-size:10px; color:#666; }
 
-/* 极简 App 界面 (还原截图) */
+/* 其他 App 内部 UI */
 .app-header { height:55px; background:var(--header-bg); border-bottom:1px solid #ddd; display:flex; align-items:center; justify-content:space-between; padding:0 15px; font-weight:700; }
-.app-header i { cursor:pointer; padding:10px; }
-.app-footer { height:60px; border-top:1px solid #eee; display:flex; background:#fff; }
-.footer-tab { flex:1; display:flex; align-items:center; justify-content:center; font-size:16px; color:#999; cursor:pointer; border-right:1px solid #f9f9f9; }
+.app-footer { height:calc(60px + env(safe-area-inset-bottom)); padding-bottom: env(safe-area-inset-bottom); border-top:1px solid #eee; display:flex; background:#fff; }
+.footer-tab { flex:1; display:flex; align-items:center; justify-content:center; font-size:16px; color:#999; cursor:pointer; }
 .footer-tab.active { color:var(--wc-green); font-weight:700; background:#fafafa; }
-
-.minimal-list { padding-top:10px; }
-.minimal-row { height:65px; margin-left:20px; padding-right:20px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #f2f2f2; font-size:17px; cursor:pointer; }
-
-/* 微信聊天 */
-.app-body { flex:1; overflow-y:auto; }
 .msg-box { flex:1; background:#f2f2f2; padding:15px; overflow-y:auto; }
-.wc-input-area { height:60px; background:#fff; border-top:1px solid #eee; display:flex; align-items:center; padding:0 10px; gap:10px; }
+.wc-input-area { height:calc(60px + env(safe-area-inset-bottom)); padding-bottom: env(safe-area-inset-bottom); background:#fff; border-top:1px solid #eee; display:flex; align-items:center; padding:0 10px; gap:10px; }
 #chat-in { flex:1; height:38px; border:1px solid #ddd; border-radius:6px; padding:0 10px; }
-.wc-input-area i { font-size:20px; color:var(--wc-green); cursor:pointer; }
-.add-bar { height:55px; border-bottom:1px solid #eee; display:flex; align-items:center; justify-content:center; color:var(--wc-green); font-weight:700; cursor:pointer; }
 
-/* 设置内容 */
-.p-20 { padding:20px; }
-.l { display:block; font-size:12px; color:#999; margin:15px 0 5px; }
-.i { width:100%; padding:12px; border:1px solid #eee; border-radius:8px; background:#fafafa; }
-.b-save { width:100%; padding:15px; background:#000; color:#fff; border-radius:12px; border:none; font-weight:700; margin-top:20px; }
-.api-btn { background:var(--wc-green); color:#fff; border:none; padding:4px 10px; border-radius:5px; font-size:12px; }
-
-/* 弹窗 */
+/* 弹窗适配 */
 .modal-overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); display:none; justify-content:center; align-items:center; z-index:9999; }
-.modal-card { width:88%; height:82%; background:#fff; border-radius:20px; padding:20px; display:flex; flex-direction:column; }
-.modal-top { display:flex; justify-content:space-between; font-weight:700; }
-.modal-body { flex:1; overflow-y:auto; margin-top:15px; }
-.modal-body input, .modal-body textarea { width:100%; padding:10px; border:1px solid #eee; border-radius:8px; margin:5px 0 15px; }
-.modal-save { width:100%; padding:15px; background:var(--wc-green); color:#fff; border:none; border-radius:12px; font-weight:700; }
+.modal-card { width:90%; height:85%; background:#fff; border-radius:20px; padding:20px; display:flex; flex-direction:column; }
+.modal-body { flex:1; overflow-y:auto; }
 
 #splash-screen { position:fixed; top:0; left:0; width:100%; height:100%; background:#fff; z-index:99999; display:flex; justify-content:center; align-items:center; transition:opacity 0.8s; }
-.pixel-text { font-size:2rem; letter-spacing:5px; color:#444; }

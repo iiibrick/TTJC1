@@ -3,19 +3,25 @@ let curId = null;
 let queue = [];
 
 window.onload = () => {
+    // 首次点击屏幕尝试进入全屏
+    document.body.addEventListener('click', function() {
+        if (!document.fullscreenElement) {
+            enterFullscreen();
+        }
+    }, { once: true });
+
     // 全局时钟
     setInterval(() => {
         const now = new Date();
         const t = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
         document.getElementById('st-time').innerText = t;
-        document.querySelector('.time-display').innerText = t;
+        const timeDisp = document.querySelector('.time-display');
+        if(timeDisp) timeDisp.innerText = t;
     }, 1000);
 
-    // 加载方形卡片图
     const saved = localStorage.getItem('home_sq_img');
     if(saved) document.getElementById('home-square-img').src = saved;
 
-    // 动画消失
     setTimeout(() => {
         const s = document.getElementById('splash-screen');
         s.style.opacity = '0';
@@ -26,7 +32,23 @@ window.onload = () => {
     applyIcons();
 };
 
-// 1. 绝对隔离导航
+// 增强全屏逻辑
+function enterFullscreen() {
+    let el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    else if (el.msRequestFullscreen) el.msRequestFullscreen();
+}
+
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        enterFullscreen();
+    } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+    }
+}
+
+// 导航
 function openApp(id) {
     document.querySelectorAll('.app-layer').forEach(l => l.classList.remove('active'));
     document.getElementById(id + '-app').classList.add('active');
@@ -39,7 +61,7 @@ function goHome() {
     document.getElementById('home-screen').classList.add('active');
 }
 
-// 2. 微信子页面
+// 微信功能
 function switchWCTab(t) {
     document.querySelectorAll('#wechat-app .sub-page').forEach(p => p.classList.remove('active'));
     document.getElementById('wc-' + t + '-page').classList.add('active');
@@ -55,7 +77,6 @@ function openChat(id) {
     queue = [];
 }
 
-// 3. 对话与生成
 document.getElementById('btn-send').onclick = () => {
     const i = document.getElementById('chat-in');
     if(!i.value.trim() || !curId) return;
@@ -97,13 +118,12 @@ function renderMsgs() {
     f.scrollTop = f.scrollHeight;
 }
 
-// 4. 设置子页面
+// 设置功能
 function openSetSub(n) {
     document.querySelectorAll('#settings-app .sub-page').forEach(p => p.classList.remove('active'));
     document.getElementById('set-' + n + '-page').classList.add('active');
 }
 
-// 5. 方形卡片图逻辑
 function changeHomeImage() {
     const mode = confirm("确定: 上传图片\n取消: 输入URL");
     if(mode) document.getElementById('img-upload').click();
@@ -123,16 +143,17 @@ function processLocalImg(input) {
     }
 }
 
-// 6. 联系人管理
 function showAddModal() { document.getElementById('add-modal').style.display = 'flex'; }
 function closeAddModal() { document.getElementById('add-modal').style.display = 'none'; }
 function saveNewContact() {
     const c = { id: Date.now(), avatar: document.getElementById('in-avatar').value, name: document.getElementById('in-name').value, nickname: document.getElementById('in-nickname').value, role: document.getElementById('in-role').value, user_prompt: document.getElementById('in-user').value, history: [] };
     if(!c.name) return; contacts.push(c); save(); closeAddModal(); renderWC();
 }
+
 function renderWC() {
     const chatB = document.getElementById('chat-list-box');
     const contB = document.getElementById('contacts-box');
+    if(!chatB || !contB) return;
     if(contacts.length === 0) { chatB.innerHTML = '<p class="empty-hint">暂无聊天内容</p>'; contB.innerHTML = ''; return; }
     chatB.innerHTML = contacts.map(c => `<div class="list-item" style="display:flex; padding:15px; border-bottom:1px solid #f9f9f9; align-items:center;">
         <div onclick="openChat(${c.id})" style="flex:1; display:flex; align-items:center;">
@@ -149,6 +170,7 @@ function renderWC() {
         <i class="fas fa-trash-alt" style="color:#ff4d4f" onclick="delChar(${c.id}, event)"></i>
     </div>`).join('');
 }
+
 function delChar(id, e) { e.stopPropagation(); contacts = contacts.filter(x => x.id != id); save(); renderWC(); }
 function clearWC(id, e) { e.stopPropagation(); contacts.find(x => x.id == id).history = []; save(); renderWC(); }
 async function fetchModels() {
@@ -162,4 +184,3 @@ async function fetchModels() {
 function saveApi() { localStorage.setItem('api_base', document.getElementById('api-base').value); localStorage.setItem('api_key', document.getElementById('api-key').value); localStorage.setItem('api_model', document.getElementById('api-model').value); alert("保存成功"); }
 function applyIcons() { const wc = localStorage.getItem('brick_wc_ic'); const st = localStorage.getItem('brick_st_ic'); if(wc) document.getElementById('ic-wc').src = wc; if(st) document.getElementById('ic-set').src = st; }
 function save() { localStorage.setItem('brick_v3_data', JSON.stringify(contacts)); }
-function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }
