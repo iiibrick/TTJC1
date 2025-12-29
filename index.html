@@ -119,15 +119,27 @@
         </div>
     </div>
 
-    <!-- 弹窗 -->
+    <!-- 弹窗：修正结构 -->
     <div id="add-modal" class="modal-overlay">
         <div class="modal-card">
-            <div class="modal-top"><span>添加联系人</span><i class="fas fa-times" onclick="closeAddModal()"></i></div>
+            <div class="modal-top"><span>添加联系人</span><i class="fas fa-times" onclick="closeAddModal()" style="cursor:pointer"></i></div>
             <div class="modal-body">
-                <label>名字 (AI扮演名)</label><input type="text" id="in-name">
-                <label>昵称 (显示名)</label><input type="text" id="in-nickname">
-                <label>背景设定</label><textarea id="in-role" rows="3"></textarea>
-                <button class="modal-save" onclick="saveNewContact()">保存</button>
+                <label>头像 URL</label>
+                <input type="text" id="in-avatar" placeholder="https://...">
+                
+                <label>名字 (AI扮演名)</label>
+                <input type="text" id="in-name">
+                
+                <label>昵称 (显示名)</label>
+                <input type="text" id="in-nickname">
+                
+                <label>他是谁 (Prompt)</label>
+                <textarea id="in-role" rows="3" placeholder="角色的性格、背景..."></textarea>
+                
+                <label>你是谁 (User Prompt)</label>
+                <textarea id="in-user" rows="3" placeholder="角色如何称呼你..."></textarea>
+                
+                <button class="modal-save" onclick="saveNewContact()">保存联系人</button>
             </div>
         </div>
     </div>
